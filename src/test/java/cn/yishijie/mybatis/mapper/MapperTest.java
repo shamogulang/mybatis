@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Random;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -19,11 +20,45 @@ public class MapperTest {
  
     @Autowired
     private AnimalsMapper animalsMapper;
- 
-    @Test
-    public void getAllAnimals() throws Exception {
-        List<AnimalsEntity> animalsEntities = animalsMapper.getAllAnimals();
 
-        System.out.println(animalsEntities);
+    @Test
+    public void baseTest(){
+        // 添加数据
+        AnimalsEntity animalsEntity = new AnimalsEntity();
+        animalsEntity.setName("monkey");
+        int addRows = animalsMapper.saveAnimal(animalsEntity);
+        assert addRows > 0;
+
+        // 查询数据
+        AnimalsEntity animal = animalsMapper.getAnimalById(animalsEntity.getId());
+        assert animal != null && animalsEntity.getName().equals(animal.getName());
+
+        // 更新数据
+        String animalName = "bird";
+        animal.setName(animalName);
+        int effectRows = animalsMapper.updateAnimal(animal);
+        assert effectRows > 0;
+
+        AnimalsEntity updateAnimal = animalsMapper.getAnimalById(animalsEntity.getId());
+        assert animalName.equals(updateAnimal.getName());
+
+        // 删除数据
+        int deleteRows = animalsMapper.deleteAnimal(animalsEntity.getId());
+        assert deleteRows > 0;
+
+        int randomCnt = new Random().nextInt(10) + 1;
+        for(int index = 0; index < randomCnt; index++){
+            AnimalsEntity tempAnimal = new AnimalsEntity();
+            tempAnimal.setName(index+"");
+            animalsMapper.saveAnimal(tempAnimal);
+        }
+        List<AnimalsEntity> animals = animalsMapper.getAllAnimals();
+        assert animals.size() == randomCnt;
+
+        int delAllCnt = animalsMapper.deleteAll();
+        assert delAllCnt > 0;
+
+        List<AnimalsEntity> allAnimals = animalsMapper.getAllAnimals();
+        assert  allAnimals.isEmpty();
     }
 }
