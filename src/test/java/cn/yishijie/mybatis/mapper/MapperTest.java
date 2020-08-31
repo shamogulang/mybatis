@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -29,6 +30,13 @@ public class MapperTest {
         int addRows = animalsMapper.saveAnimal(animalsEntity);
         assert addRows > 0;
 
+        List<AnimalsEntity> mon = animalsMapper.getAnimalByNameLikeAndIdAfter("mon", animalsEntity.getId());
+        assert  mon.size() == 1 && mon.get(0).getName().equals("monkey");
+
+        List<AnimalsEntity> animalsEntities = animalsMapper.getAnimalByNameLike("mo");
+        assert animalsEntities.size() == 1;
+        assert  animalsEntities.get(0).getName().equals("monkey");
+
         // 查询数据
         AnimalsEntity animal = animalsMapper.getAnimalById(animalsEntity.getId());
         assert animal != null && animalsEntity.getName().equals(animal.getName());
@@ -47,11 +55,13 @@ public class MapperTest {
         assert deleteRows > 0;
 
         int randomCnt = new Random().nextInt(10) + 1;
+        List<AnimalsEntity> saveAnimalsEntities = new ArrayList<>();
         for(int index = 0; index < randomCnt; index++){
             AnimalsEntity tempAnimal = new AnimalsEntity();
             tempAnimal.setName(index+"");
-            animalsMapper.saveAnimal(tempAnimal);
+            saveAnimalsEntities.add(tempAnimal);
         }
+        animalsMapper.saveAnimals(saveAnimalsEntities);
         List<AnimalsEntity> animals = animalsMapper.getAllAnimals();
         assert animals.size() == randomCnt;
 
@@ -60,5 +70,7 @@ public class MapperTest {
 
         List<AnimalsEntity> allAnimals = animalsMapper.getAllAnimals();
         assert  allAnimals.isEmpty();
+
+
     }
 }

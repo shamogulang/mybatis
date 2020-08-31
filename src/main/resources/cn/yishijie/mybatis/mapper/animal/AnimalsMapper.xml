@@ -15,9 +15,38 @@
         insert into animals(name) values(#{name})
     </insert>
 
+    <!--批量保存数据-->
+    <insert id="saveAnimals" useGeneratedKeys="true" keyProperty="id">
+        insert into animals(name) values
+        <foreach collection="animals" item="animal" separator=",">
+           (#{animal.name})
+        </foreach>
+    </insert>
+
     <!--获取具体数据-->
     <select id="getAnimalById" resultType="cn.yishijie.mybatis.domain.animal.AnimalsEntity">
         SELECT * FROM animals ani where ani.id = #{id}
+    </select>
+
+    <!--动态sql-->
+    <select id="getAnimalByNameLike" resultType="cn.yishijie.mybatis.domain.animal.AnimalsEntity">
+        SELECT * from animals ani where 1 = 1
+        <if test="name != null and name != ''">
+            AND ani.name like concat('%',#{name},'%')
+        </if>
+    </select>
+
+    <!--动态sql-->
+    <select id="getAnimalByNameLikeAndIdAfter" resultType="cn.yishijie.mybatis.domain.animal.AnimalsEntity">
+        SELECT * from animals ani where 1 = 1
+        <choose>
+            <when test="name != null and name != ''">
+                AND ani.name like concat('%',#{name},'%')
+            </when>
+            <when test="id > 0">
+                AND ani.id > #{id}
+            </when>
+        </choose>
     </select>
 
 
