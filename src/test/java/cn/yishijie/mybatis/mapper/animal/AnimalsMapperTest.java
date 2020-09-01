@@ -1,28 +1,21 @@
-package cn.yishijie.mybatis.mapper;
+package cn.yishijie.mybatis.mapper.animal;
 
-import cn.yishijie.MybatisApplication;
 import cn.yishijie.mybatis.domain.animal.AnimalsEntity;
-import cn.yishijie.mybatis.mapper.animal.AnimalsMapper;
+import cn.yishijie.mybatis.mapper.BaseTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration(classes = MybatisApplication.class)
-public class MapperTest {
+public class AnimalsMapperTest extends BaseTest {
  
     @Autowired
     private AnimalsMapper animalsMapper;
 
     @Test
+    @Override
     public void baseTest(){
         // 添加数据
         AnimalsEntity animalsEntity = new AnimalsEntity();
