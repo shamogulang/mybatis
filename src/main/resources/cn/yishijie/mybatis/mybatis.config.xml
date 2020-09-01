@@ -3,7 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <!--打印sql语句的配置-->
     <settings>
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
+    <!--分页插件的使用-->
+    <plugins>
+        <!-- 5.0之前使用这个类：com.github.pagehelper.PageHelper -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库-->
+            <!-- 5.0之后可以自动识别数据库类型：不需要这个配置<property name="dialect" value="mysql"/> -->
+        </plugin>
+    </plugins>
 </configuration>
