@@ -5,12 +5,18 @@
 
 <mapper namespace="cn.yishijie.mybatis.mapper.animal.AnimalsMapper">
 
+    <!--用于完成java类和数据库字段之间的映射-->
+    <resultMap id="baseResultMap" type="cn.yishijie.mybatis.domain.animal.AnimalsEntity">
+        <id column="id" javaType="INTEGER" property="id"></id>
+        <result column="name" javaType="String" property="name"></result>
+    </resultMap>
+
     <!--获取所有数据-->
-    <select id="getAllAnimals" resultType="cn.yishijie.mybatis.domain.animal.AnimalsEntity">
+    <select id="getAllAnimals" resultMap="baseResultMap">
         SELECT * FROM animals
     </select>
 
-    <!--保存数据-->
+    <!--保存数据 返回主键的设置：useGeneratedKeys="true" keyProperty="id"-->
     <insert id="saveAnimal" parameterType="cn.yishijie.mybatis.domain.animal.AnimalsEntity" useGeneratedKeys="true" keyProperty="id">
         insert into animals(name) values(#{name})
     </insert>
@@ -48,7 +54,6 @@
             </when>
         </choose>
     </select>
-
 
     <!--更新数据-->
     <update id="updateAnimal">
