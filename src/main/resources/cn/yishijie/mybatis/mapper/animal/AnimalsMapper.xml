@@ -7,7 +7,7 @@
 
     <!--用于完成java类和数据库字段之间的映射-->
     <resultMap id="baseResultMap" type="cn.yishijie.mybatis.domain.animal.AnimalsEntity">
-        <id column="id" javaType="INTEGER" property="id"></id>
+        <id column="id" javaType="Long" property="id"></id>
         <result column="name" javaType="String" property="name"></result>
     </resultMap>
 
