@@ -12,18 +12,21 @@
             <property name="caseSensitive" value="false"/>
         </plugin>
 
+        <!--jdbc的连接信息-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/caraliu?serverTimezone=UTC"
                         userId="root"
                         password="123456">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="cn.yishijie.code.entity" targetProject="D:/jeffchan/workspace/mybatis/src/main/java"/>
+        <!--生成entity-->
+        <javaModelGenerator targetPackage="cn.yishijie.code.entity" targetProject="%s/src/main/java"/>
+        <!--生成xml文件-->
+        <sqlMapGenerator targetPackage="cn.yishijie.mybatis.mapper"  targetProject="%s/src/main/resources"/>
+        <!--生成mapper文件-->
+        <javaClientGenerator targetPackage="cn.yishijie.code.mapper" targetProject="%s/src/main/java" type="MAPPER" />
 
-        <sqlMapGenerator targetPackage="cn.yishijie.mybatis.mapper"  targetProject="D:/jeffchan/workspace/mybatis/src/main/resources"/>
-
-        <javaClientGenerator targetPackage="cn.yishijie.code.mapper" targetProject="D:/jeffchan/workspace/mybatis/src/main/java" type="MAPPER" />
-
+        <!--需要生成代码的数据表-->
         <table tableName="animals" >
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
